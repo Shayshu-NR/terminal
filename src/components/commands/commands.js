@@ -1,3 +1,5 @@
+import { fileMap } from "../../files/files.js";
+
 function helpCommand(func, ...args) {
     // Parse through the arguments and then return the response...
     console.log("Function", func);
@@ -42,6 +44,23 @@ function snrCommand(func, ...args) {
     return resp
 }
 
+function resumeCommand(func, ...args) {
+    // Parse through the arguments and then return the response...
+    console.log("Function", func);
+    console.log("Args", ...args);
+
+    let resp = [];
+    let argParams = Object.fromEntries(args.map(arg => arg.split("=")));
+
+    resp = [
+        `Downloading resume: ${fileMap.Resume}`,
+        "[ <ProcessLoader></ProcessLoader> ] 100%",
+        ""
+    ]
+
+    return resp;
+}
+
 function unknownCommand(func, ...args) {
     // Parse through the arguments and then return the response...
     console.log("Function", func);
@@ -58,4 +77,4 @@ function unknownCommand(func, ...args) {
     return resp
 }
 
-export {snrCommand, helpCommand, unknownCommand}
+export { snrCommand, helpCommand, unknownCommand, resumeCommand }

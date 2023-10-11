@@ -8,3 +8,36 @@
 
   font-weight: normal;
 }
+
+.w-100 {
+  width: 100% !important;
+  height: 100% !important;
+  font-family: 'DejaVu Sans Mono', sans-serif, monospace !important;
+  margin-bottom: 1rem;
+}
+
+.terminal {
+  text-align: start;
+}
+
+.terminal-input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  caret-color: white;
+  color: white;
+  font-size: medium;
+  font-family: 'DejaVu Sans Mono', sans-serif, monospace !important;
+}
+
+.terminal-computer {
+  color: chartreuse;
+}
+
+.terminal-runtime {
+  color: blueviolet
+}
+
+.terminal-path {
+  color: yellow
+}

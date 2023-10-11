@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
-import { snrCommand, helpCommand, unknownCommand } from './commands/commands';
+import { snrCommand, helpCommand, unknownCommand, resumeCommand } from './commands/commands';
+import TerminalOutput from './TerminalOutput.vue';
+import ProcessLoader from './ProcessLoader.vue'
 
 const props = defineProps(['path']);
 const command = ref("");
@@ -25,6 +27,9 @@ function ingestCommand(e) {
             break;
         case "help":
             cmdResp.response = helpCommand(func, ...args);
+            break;
+        case "resume":
+            cmdResp.response = resumeCommand(func, ...args);
             break;
         case "clear":
             command.value = "";
@@ -62,58 +67,8 @@ function getNextCommand(e) {
 }
 </script>
 
-<style>
-.w-100 {
-    width: 100% !important;
-    height: 100% !important;
-    font-family: 'DejaVu Sans Mono', sans-serif, monospace !important;
-    margin-bottom: 1rem;
-}
-
-.terminal {
-    text-align: start;
-}
-
-.terminal-input {
-    background-color: transparent;
-    border: none;
-    outline: none;
-    caret-color: white;
-    color: white;
-    font-size: medium;
-    font-family: 'DejaVu Sans Mono', sans-serif, monospace !important;
-}
-
-.terminal-computer {
-    color: chartreuse;
-}
-
-.terminal-runtime {
-    color: purple
-}
-
-.terminal-path {
-    color: yellow
-}
-</style>
-
 <template>
-    <div class="w-100" v-for="cmd in pastCommands">
-        <span>
-            <span class="terminal-computer">shayshu@website </span>
-            <span class="terminal-runtime">MINGW64 </span>
-            <span class="terminal-path"> /d{{ props.path.path }} </span>
-        </span>
-        <br>
-        <span>$ {{ cmd.command }} </span>
-        <br>
-        <span v-for="resp in cmd.response">
-            <span v-html="resp">
-
-            </span>
-            <br>
-        </span>
-    </div>
+    <TerminalOutput v-for="cmd in pastCommands" :cmd="cmd" :path="props.path" />
 
     <div class="w-100">
         <span>
