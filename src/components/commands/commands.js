@@ -1,4 +1,7 @@
 import { fileMap } from "../../files/files.js";
+import ResumeCommandRender from './ResumeCommand.vue';
+import UnknownCommandRender from './UnknownCommand.vue'
+import { createApp } from 'vue';
 
 function helpCommand(func, ...args) {
     // Parse through the arguments and then return the response...
@@ -45,20 +48,17 @@ function snrCommand(func, ...args) {
 }
 
 function resumeCommand(func, ...args) {
+    setTimeout(1000);
     // Parse through the arguments and then return the response...
     console.log("Function", func);
     console.log("Args", ...args);
+    let cmd = func + args.map(x => x).join(" ");
+    console.log(cmd);
 
-    let resp = [];
-    let argParams = Object.fromEntries(args.map(arg => arg.split("=")));
-
-    resp = [
-        `Downloading resume: ${fileMap.Resume}`,
-        "[ <ProcessLoader></ProcessLoader> ] 100%",
-        ""
-    ]
-
-    return resp;
+    var component = createApp(ResumeCommandRender, {
+        'cmd': cmd
+    });
+    return component;
 }
 
 function unknownCommand(func, ...args) {
@@ -66,15 +66,12 @@ function unknownCommand(func, ...args) {
     console.log("Function", func);
     console.log("Args", ...args);
 
-    let resp = [];
+    var component = createApp(UnknownCommandRender, {
+        'func': func,
+        'args': args.map(x => x).join(" ")
+    });
 
-    resp = [
-        `Unknown command: ${func} ${args.map(x => x).join(" ")}`,
-        "To see a list of supported commands run:",
-        "&nbsp; help",
-    ]
-
-    return resp
+    return component
 }
 
 export { snrCommand, helpCommand, unknownCommand, resumeCommand }

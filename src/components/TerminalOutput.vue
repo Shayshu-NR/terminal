@@ -1,27 +1,32 @@
-<script setup>
-    import ProcessLoader from './ProcessLoader.vue'
-
-    const props = defineProps(['path', 'cmd']);
-    
-    // TODO: Replace the v-for v-html with slots for better
-    // integration with processloader component
-</script>
-
 <template>
     <div class="w-100">
         <span>
             <span class="terminal-computer">shayshu@website </span>
             <span class="terminal-runtime">MINGW64 </span>
-            <span class="terminal-path"> /d{{ props.path.path }} </span>
+            <span class="terminal-path"> /d/ </span>
         </span>
         <br>
-        <span>$ {{ props.cmd.command }} </span>
+        <span>$ {{ this.cmd }} </span>
         <br>
-        <span v-for="resp in props.cmd.response">
-            <span v-html="resp">
-
-            </span>
-            <br>
+        <span>
+            <slot></slot>
         </span>
     </div>
 </template>
+
+
+<script>
+
+export default
+    {
+        name: 'TerminalOutput',
+        props: ['cmd'],
+        mounted()
+        {
+
+        },
+        methods : {
+            
+        }
+    }
+</script>
