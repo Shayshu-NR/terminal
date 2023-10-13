@@ -25,6 +25,7 @@ import UnknownCommandRender from './commands/UnknownCommand.vue';
 import HelpCommandRender from './commands/HelpCommand.vue';
 import CoverLetterCommandRender from './commands/CoverLetterCommand.vue';
 import  GithubCommandRender from './commands/GithubCommand.vue';
+import Loading from './Loading.vue';
 import { useStore } from '../stores/store';
 
 export default
@@ -36,7 +37,6 @@ export default
             return { store };
         },
         mounted() {
-            console.log(this.$refs);
             this.$refs.outputContainer.appendChild(document.createElement('div'));
         },
         data() {
@@ -113,7 +113,8 @@ export default
             UnknownCommandRender,
             HelpCommandRender,
             CoverLetterCommandRender,
-            GithubCommandRender
+            GithubCommandRender,
+            Loading
         },
         watch : {
             'store.cmdRunning'(newVal, oldVal)

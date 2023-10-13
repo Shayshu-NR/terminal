@@ -6,9 +6,11 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy" : ""
+    "deploy": ""
   },
   "dependencies": {
+    "cli-spinner": "^0.2.10",
+    "graphql": "^16.8.1",
     "pinia": "^2.1.6",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"

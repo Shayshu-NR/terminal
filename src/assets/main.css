@@ -45,3 +45,8 @@
 .terminal-path {
   color: yellow;
 }
+
+a 
+{
+  color: var(--terminal-text-color);
+}
