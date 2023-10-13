@@ -1,5 +1,5 @@
 <template>
-    <span>[<span v-for="l in loaderCount">=</span> >] {{this.loaderCount.length * 2}}%</span>
+    <span>[<span v-for="l in loaderCount">=</span>>] {{this.loaderCount.length * 2}}%</span>
 </template>
 
 <script>

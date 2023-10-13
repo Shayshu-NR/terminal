@@ -1,6 +1,9 @@
 import { fileMap } from "../../files/files.js";
 import ResumeCommandRender from './ResumeCommand.vue';
 import UnknownCommandRender from './UnknownCommand.vue'
+import HelpCommandRender from './HelpCommand.vue'
+import CoverLetterCommandRender from './CoverLetterCommand.vue'
+import GithubCommandRender from './GithubCommand.vue';
 import { createApp } from 'vue';
 
 function helpCommand(func, ...args) {
@@ -8,54 +11,46 @@ function helpCommand(func, ...args) {
     console.log("Function", func);
     console.log("Args", ...args);
 
-    let resp = [];
+    let cmd = func + args.map(x => x).join(" ");
 
-    resp = [
-        "Shayshu NR Website, version 1.0-release",
-        "These commands are defined interaly. Type 'help' to see this list.",
-        "",
-        `All commands:`,
-        "resume [o=outputType]",
-        "contact [o=outputType]",
-        "github",
-        "expr [y=year]"
-    ]
+    var component = createApp(HelpCommandRender, {
+        'cmd': cmd
+    });
 
-    return resp
-}
-
-function snrCommand(func, ...args) {
-    // Parse through the arguments and then return the response...
-    console.log("Function", func);
-    console.log("Args", ...args);
-
-    let resp = [];
-    let argParams = Object.fromEntries(args.map(arg => arg.split("=")));
-
-    switch (func) {
-        default:
-            resp = [
-                "Unknown command: ",
-                "To see a list of supported commands run:",
-                "&nbsp; snr help",
-            ]
-            break;
-    }
-
-    console.log(resp);
-
-    return resp
+    return component;
 }
 
 function resumeCommand(func, ...args) {
-    setTimeout(1000);
     // Parse through the arguments and then return the response...
     console.log("Function", func);
     console.log("Args", ...args);
     let cmd = func + args.map(x => x).join(" ");
-    console.log(cmd);
 
     var component = createApp(ResumeCommandRender, {
+        'cmd': cmd
+    });
+    return component;
+}
+
+function coverLetterCommand(func, ...args) {
+    // Parse through the arguments and then return the response...
+    console.log("Function", func);
+    console.log("Args", ...args);
+    let cmd = func + args.map(x => x).join(" ");
+
+    var component = createApp(CoverLetterCommandRender, {
+        'cmd': cmd
+    });
+    return component;
+}
+
+function githubCommand(func, ...args) {
+    // Parse through the arguments and then return the response...
+    console.log("Function", func);
+    console.log("Args", ...args);
+    let cmd = func + args.map(x => x).join(" ");
+
+    var component = createApp(GithubCommandRender, {
         'cmd': cmd
     });
     return component;
@@ -65,13 +60,13 @@ function unknownCommand(func, ...args) {
     // Parse through the arguments and then return the response...
     console.log("Function", func);
     console.log("Args", ...args);
+    let cmd = func + args.map(x => x).join(" ");
 
     var component = createApp(UnknownCommandRender, {
-        'func': func,
-        'args': args.map(x => x).join(" ")
+        'cmd': cmd,
     });
 
     return component
 }
 
-export { snrCommand, helpCommand, unknownCommand, resumeCommand }
+export { helpCommand, unknownCommand, resumeCommand, coverLetterCommand, githubCommand }

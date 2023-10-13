@@ -6,13 +6,20 @@
             <span class="terminal-path"> /d/ </span>
         </span>
         <br>
-        <span>$ {{ this.cmd }} </span>
+        <span class="cmd-text">$ {{ this.cmd }} </span>
         <br>
-        <span>
+        <span class="cmd-text">
             <slot></slot>
         </span>
     </div>
 </template>
+
+<style>
+    .cmd-text
+    {
+        color: var(--terminal-text-color);
+    }
+</style>
 
 
 <script>

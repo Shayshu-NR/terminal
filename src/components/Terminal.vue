@@ -2,11 +2,11 @@
     <div ref="outputContainer">
     </div>
 
-    <div class="w-100" v-if="!cmdRunning">
+    <div class="w-100" v-if="!this.store.cmdRunning">
         <span>
             <span class="terminal-computer">shayshu@website </span>
             <span class="terminal-runtime">MINGW64 </span>
-            <span class="terminal-path">/d{{ this.path.path }} </span>
+            <span class="terminal-path">/d/ </span>
         </span>
         <br>
         <span>
@@ -16,19 +16,21 @@
                 autofocus />
         </span>
     </div>
-    {{ this.store.cmdRunning }}
 </template>
 
 <script>
-import { snrCommand, helpCommand, unknownCommand, resumeCommand } from './commands/commands.js';
-import ResumeCommandRender from './commands/ResumeCommand.vue'
-import UnknownCommandRender from './commands/UnknownCommand.vue'
+import { helpCommand, unknownCommand, resumeCommand, coverLetterCommand, githubCommand } from './commands/commands.js';
+import ResumeCommandRender from './commands/ResumeCommand.vue';
+import UnknownCommandRender from './commands/UnknownCommand.vue';
+import HelpCommandRender from './commands/HelpCommand.vue';
+import CoverLetterCommandRender from './commands/CoverLetterCommand.vue';
+import  GithubCommandRender from './commands/GithubCommand.vue';
 import { useStore } from '../stores/store';
 
 export default
     {
         name: 'Terminal',
-        props: ['path'],
+        props: [],
         setup() {
             const store = useStore();
             return { store };
@@ -47,8 +49,6 @@ export default
         },
         methods: {
             ingestCommand(e) {
-                this.store.cmdRunning = true;
-
                 let cmdResp = {
                     command: e.target.value,
                     response: []
@@ -56,19 +56,20 @@ export default
 
                 let [func, ...args] = e.target.value.split(' ');
 
-                console.log(func)
+                let cmdRespComponent;
 
                 switch (func) {
-                    case "snr":
-                        cmdResp.response = snrCommand(func, ...args);
-                        break;
                     case "help":
-                        cmdResp.response = helpCommand(func, ...args);
+                        cmdRespComponent = helpCommand(func, ...args);
                         break;
                     case "resume":
-                        let resumeResp = resumeCommand(func, ...args);
-                        this.$refs.outputContainer.appendChild(document.createElement('br'));
-                        this.$refs.outputContainer.appendChild(resumeResp.mount(document.createElement('div')).$el);
+                        cmdRespComponent = resumeCommand(func, ...args);
+                        break;
+                    case "cvrlttr":
+                        cmdRespComponent = coverLetterCommand(func, ...args);
+                        break;
+                    case "github":
+                        cmdRespComponent = githubCommand(func, ...args);
                         break;
                     case "clear":
                         command.value = "";
@@ -76,22 +77,20 @@ export default
                         this.commandIndex = this.pastCommands.length;
                         return;
                     default:
-                        let unknownResp = unknownCommand(func, ...args);
-                        this.$refs.outputContainer.appendChild(document.createElement('br'));
-                        this.$refs.outputContainer.appendChild(unknownResp.mount(document.createElement('div')).$el);
+                        cmdRespComponent = unknownCommand(func, ...args);
                         break;
                 }
+
+                // Append the returned component to the dom
+                // this.$refs.outputContainer.appendChild(document.createElement('br'));
+                this.$refs.outputContainer.appendChild(cmdRespComponent.mount(document.createElement('div')).$el);
 
                 this.pastCommands.push(
                     cmdResp
                 );
-
-                console.log(e);
-
                 this.$refs.terminalInput.value = "";
                 this.commandIndex = this.pastCommands.length;
                 this.command = "";
-                this.store.cmdRunning = false;
             },
 
             getPastCommand(e) {
@@ -111,7 +110,21 @@ export default
         },
         components: {
             ResumeCommandRender,
-            UnknownCommandRender
+            UnknownCommandRender,
+            HelpCommandRender,
+            CoverLetterCommandRender,
+            GithubCommandRender
+        },
+        watch : {
+            'store.cmdRunning'(newVal, oldVal)
+            {
+                //when the cmd is done running focus on the input...
+                if(oldVal && !newVal)
+                {
+                    console.log("FOCUS!", this.$refs);
+                    setTimeout(() => this.$refs.terminalInput.focus(), 100);
+                }
+            }
         }
     }
 </script>

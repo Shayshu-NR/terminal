@@ -1,8 +1,6 @@
 <template>
     <TerminalOutput :cmd="this.cmd">
-        <span>Unknown command: {{ this.cmd }}</span><br>
-        <span>To see a list of supported commands run:</span><br>
-        <span>&nbsp; help</span><br>
+        <span>GITHUB</span>
     </TerminalOutput>
 </template>
 
@@ -12,7 +10,7 @@ import { useStore } from '../../stores/store.js';
 
 export default
     {
-        name: 'UnknownCommandRender',
+        name: 'GithubCommandRender',
         props: ['cmd'],
         setup() {
             const store = useStore();
@@ -23,7 +21,6 @@ export default
         },
         data() {
             return {
-
             }
         },
         methods: {

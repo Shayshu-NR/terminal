@@ -8,13 +8,13 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: Home,
-      props: route => ({ path: route })
+      props: route => ({ })
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'catchAll',
       component: Home,
-      props: route => ({ path: route })
+      props: route => ({  })
     }
   ]
 })

@@ -1,7 +1,7 @@
 <template>
     <TerminalOutput :cmd="this.cmd">
-        <span>Downloading resume: {{ this.resume.Path }}</span><br>
-        <ProcessLoader :load-time="70" :rand-stutter="true" :stutter-limit="25" @done-load="this.downloadResume" />
+        <span>Downloading cover letter: {{ this.coverLetter.Path }}</span><br>
+        <ProcessLoader :load-time="70" :rand-stutter="true" :stutter-limit="25" @done-load="this.downloadCoverLetter" />
     </TerminalOutput>
 </template>
 
@@ -13,7 +13,7 @@ import { fileMap } from '../../files/files';
 
 export default
     {
-        name: 'ResumeCommandRender',
+        name: 'CoverLetterCommandRender',
         props : ['cmd'],
         setup() {
             const store = useStore();
@@ -21,20 +21,20 @@ export default
         },
         mounted() {
             this.store.cmdRunning = true;
-            this.resume = fileMap.Resume
+            this.path = fileMap.CoverLetter;
         },
         data() {
             return {
-             resume : "",   
+                coverLetter : ""
             }
         },
         methods: {
-            downloadResume() {
+            downloadCoverLetter() {
                 this.store.cmdRunning = false;
                 return;
                 var anchor = document.createElement('a');
-                anchor.setAttribute('href', fileMap.Resume.Path);
-                anchor.setAttribute('download', fileMap.Resume.Name);
+                anchor.setAttribute('href', fileMap.CoverLetter.Path);
+                anchor.setAttribute('download', fileMap.CoverLetter.Name);
                 document.body.appendChild(anchor);
                 anchor.click();
                 anchor.parentNode.removeChild(anchor);
