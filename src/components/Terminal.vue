@@ -72,9 +72,8 @@ export default
                         cmdRespComponent = githubCommand(func, ...args);
                         break;
                     case "clear":
-                        command.value = "";
-                        this.pastCommands = [];
-                        this.commandIndex = this.pastCommands.length;
+                        this.command = "";
+                        this.$refs.outputContainer.innerHTML = "";
                         return;
                     default:
                         cmdRespComponent = unknownCommand(func, ...args);
