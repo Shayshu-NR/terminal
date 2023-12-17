@@ -19,12 +19,13 @@
 </template>
 
 <script>
-import { helpCommand, unknownCommand, resumeCommand, coverLetterCommand, githubCommand } from './commands/commands.js';
+import { helpCommand, unknownCommand, resumeCommand, coverLetterCommand, githubCommand, contactCommand } from './commands/commands.js';
 import ResumeCommandRender from './commands/ResumeCommand.vue';
 import UnknownCommandRender from './commands/UnknownCommand.vue';
 import HelpCommandRender from './commands/HelpCommand.vue';
 import CoverLetterCommandRender from './commands/CoverLetterCommand.vue';
-import  GithubCommandRender from './commands/GithubCommand.vue';
+import GithubCommandRender from './commands/GithubCommand.vue';
+import ContactCommandRender from './commands/ContactCommand.vue';
 import Loading from './Loading.vue';
 import { useStore } from '../stores/store';
 
@@ -71,6 +72,9 @@ export default
                     case "github":
                         cmdRespComponent = githubCommand(func, ...args);
                         break;
+                    case "contact":
+                        cmdRespComponent = contactCommand(func, ...args);
+                        break;
                     case "clear":
                         this.command = "";
                         this.$refs.outputContainer.innerHTML = "";
@@ -113,15 +117,13 @@ export default
             HelpCommandRender,
             CoverLetterCommandRender,
             GithubCommandRender,
-            Loading
+            ContactCommandRender,
+            Loading,
         },
-        watch : {
-            'store.cmdRunning'(newVal, oldVal)
-            {
+        watch: {
+            'store.cmdRunning'(newVal, oldVal) {
                 //when the cmd is done running focus on the input...
-                if(oldVal && !newVal)
-                {
-                    console.log("FOCUS!", this.$refs);
+                if (oldVal && !newVal) {
                     setTimeout(() => this.$refs.terminalInput.focus(), 100);
                 }
             }

@@ -30,14 +30,13 @@ export default
         },
         methods: {
             downloadResume() {
-                this.store.cmdRunning = false;
-                return;
                 var anchor = document.createElement('a');
                 anchor.setAttribute('href', fileMap.Resume.Path);
                 anchor.setAttribute('download', fileMap.Resume.Name);
                 document.body.appendChild(anchor);
                 anchor.click();
                 anchor.parentNode.removeChild(anchor);
+                this.store.cmdRunning = false;
             }
         },
         components: {

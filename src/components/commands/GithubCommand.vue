@@ -1,7 +1,7 @@
 <template>
     <TerminalOutput :cmd="this.cmd">
         <Loading v-if="Object.keys(this.store.ghData).length == 0" />
-        
+
         <span v-if="Object.keys(this.store.ghData).length > 0">
             <span>Check out my Github: <a :href="this.store.ghData.user.url">{{ this.store.ghData.user.name
             }}</a></span><br>
@@ -11,8 +11,10 @@
                 &nbsp;&nbsp;<a :href="repo.url">{{ repo.name }}</a><br>
             </span>
             <br>
-            <span>I have another {{ this.store.ghData.user.repositories.totalCount - 6 }} repositories you can check
-                out.</span>
+            <span>I have another {{ this.store.ghData.user.repositories.totalCount -
+                this.store.ghData.user.pinnedItems.nodes.length }} repositories you can check
+                out.
+            </span>
         </span>
     </TerminalOutput>
 </template>
@@ -39,15 +41,15 @@ export default {
                         user(login: "Shayshu-NR") {
                             name
                             pinnedItems(first: 6, types: REPOSITORY) {
-                            nodes {
-                                ... on Repository {
-                                name
-                                url
+                                nodes {
+                                    ... on Repository {
+                                        name
+                                        url
+                                    }
                                 }
                             }
-                            }
                             repositories {
-                            totalCount
+                                totalCount
                             }
                             url
                         }
@@ -68,7 +70,48 @@ export default {
                     this.store.ghData = x.data;
                     this.store.cmdRunning = false;
                 })
-                .catch((X) => console.log(x));
+                .catch((x) => {
+                    this.store.ghData = {
+                        "data": {
+                            "user": {
+                                "name": "Shayshu Nahata",
+                                "pinnedItems": {
+                                    "nodes": [
+                                        {
+                                            "name": "Rust-Code-Visualizer",
+                                            "url": "https://github.com/Shayshu-NR/Rust-Code-Visualizer"
+                                        },
+                                        {
+                                            "name": "Beverley-Maps",
+                                            "url": "https://github.com/Shayshu-NR/Beverley-Maps"
+                                        },
+                                        {
+                                            "name": "Movie-Rating-AI",
+                                            "url": "https://github.com/Shayshu-NR/Movie-Rating-AI"
+                                        },
+                                        {
+                                            "name": "ECE344",
+                                            "url": "https://github.com/Shayshu-NR/ECE344"
+                                        },
+                                        {
+                                            "name": "APS360",
+                                            "url": "https://github.com/Shayshu-NR/APS360"
+                                        },
+                                        {
+                                            "name": "ECE421",
+                                            "url": "https://github.com/Shayshu-NR/ECE421"
+                                        }
+                                    ]
+                                },
+                                "repositories": {
+                                    "totalCount": 39
+                                },
+                                "url": "https://github.com/Shayshu-NR"
+                            }
+                        }
+                    };
+                    this.store.cmdRunning = false;
+                });
         }
         else {
             this.store.cmdRunning = false;

@@ -32,6 +32,9 @@
   color: var(--terminal-text-color);
   font-size: medium;
   font-family: "DejaVu Sans Mono", sans-serif, monospace !important;
+  width: 80%;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
 .terminal-computer {
@@ -46,7 +49,6 @@
   color: yellow;
 }
 
-a 
-{
+a {
   color: var(--terminal-text-color);
 }

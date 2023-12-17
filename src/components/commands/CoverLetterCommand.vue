@@ -30,14 +30,13 @@ export default
         },
         methods: {
             downloadCoverLetter() {
-                this.store.cmdRunning = false;
-                return;
                 var anchor = document.createElement('a');
                 anchor.setAttribute('href', fileMap.CoverLetter.Path);
                 anchor.setAttribute('download', fileMap.CoverLetter.Name);
                 document.body.appendChild(anchor);
                 anchor.click();
                 anchor.parentNode.removeChild(anchor);
+                this.store.cmdRunning = false;
             }
         },
         components: {
